@@ -5,7 +5,7 @@ void HariMain(void){
 	int i;
 	char *p;
 	for(i=0xa0000;i<=0xaffff;i++){
-		p=i; //代入地址
+		p=(char *)i; //代入地址
 		*p=i&0x0f;//用指针来代替调用汇编函数
 	}
 	for(;;){
