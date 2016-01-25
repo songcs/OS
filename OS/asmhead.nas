@@ -9,9 +9,9 @@ DSKCAC0	EQU		0x00008000		; ディスクキャッシュの場所（リアルモード）
 CYLS	EQU		0x0ff0			; ブートセクタが設定する
 LEDS	EQU		0x0ff1
 VMODE	EQU		0x0ff2			; 色数に関する情報。何ビットカラーか？
-SCRNX	EQU		0x0ff4			; 解像度のX
-SCRNY	EQU		0x0ff6			; 解像度のY
-VRAM	EQU		0x0ff8			; グラフィックバッファの開始番地
+SCRNX	EQU		0x0ff4			; 分辨率x
+SCRNY	EQU		0x0ff6			; 分辨率Y
+VRAM	EQU		0x0ff8			; 界面?像在内存中的起始地址
 
 		ORG		0xc200			; このプログラムがどこに読み込まれるのか
 
