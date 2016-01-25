@@ -28,19 +28,22 @@ void init_screen(char *vram, int x, int y);
 #define COL8_008484		14
 #define COL8_848484		15
 
+struct BOOTINFO{
+	char cyls,leds,vmode,reserve;
+	short scrnx,scrny;
+	char *vram;
+};
+
 void HariMain(void){
 	char *vram;
 	int xsize,ysize;
-	short *binfo_scrnx,*binfo_scrny;
-	int *binfo_vram;
+	struct BOOTINFO *binfo;
 	
 	init_palette();					//设定调色板
-	binfo_scrnx=(short *)0x0ff4;	//接受x分辨率
-	binfo_scrny=(short *)0x0ff6;	//接收y分辨率
-	binfo_vram=(int *)0x0ff8;		//界面图形在内存中的起始地址
-	xsize=*binfo_scrnx;
-	ysize=*binfo_scrny;
-	vram=(char *)*binfo_vram;
+	binfo=(struct BOOTINFO *)0x0ff0;//这个地址存储着初始化信息
+	xsize=(*binfo).scrnx;
+	ysize=(*binfo).scrny;
+	vram=(*binfo).vram;
 	
 	init_screen(vram,xsize,ysize);
 	
