@@ -17,12 +17,7 @@ _io_hlt:	;void io_hlt(void);
 		HLT
 		RET
 	
-_write_mem8:
-		MOV		ECX,[ESP+4]
-		MOV		AL,[ESP+8]
-		MOV		[ECX],AL
-		RET
-		
+
 _io_cli:	;void io_cli(void);
 	CLI
 	RET
