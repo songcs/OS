@@ -6,15 +6,14 @@ void io_out8(int port, int data);
 int io_load_eflags(void);
 void io_store_eflags(int eflags);
 
-void init_palette(void);
-void set_palette(int start, int end, unsigned char *rgb);
-void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1);
-void init_screen8(char *vram, int x, int y);
-void putfont8(char *vram, int xsize, int x, int y, char c, char *font);
+void init_palette(void);//初始化?色板
+void set_palette(int start, int end, unsigned char *rgb);//?置?色板
+void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1);//画矩形
+void init_screen8(char *vram, int x, int y);//初始化界面（?似正?操作系?的界面）
+void putfont8(char *vram, int xsize, int x, int y, char c, char *font);//?出字符;c：?色；*font：字符；x,y字符?示坐?
 void putfonts8_asc(char *vram, int xsize, int x, int y, char c, unsigned char *s);
 void init_mouse_cursor8(char *mouse, char bc);
-void putblock8_8(char *vram, int vxsize, int pxsize,
-	int pysize, int px0, int py0, char *buf, int bxsize);
+void putblock8_8(char *vram, int vxsize, int pxsize, int pysize, int px0, int py0, char *buf, int bxsize);
 
 #define COL8_000000		0
 #define COL8_FF0000		1
@@ -37,33 +36,33 @@ void init_palette(void)
 {
 	static unsigned char table_rgb[16 * 3] = {
 		0x00, 0x00, 0x00,	/*  0:黒 */
-		0xff, 0x00, 0x00,	/*  1:明るい赤 */
-		0x00, 0xff, 0x00,	/*  2:明るい緑 */
-		0xff, 0xff, 0x00,	/*  3:明るい黄色 */
-		0x00, 0x00, 0xff,	/*  4:明るい青 */
-		0xff, 0x00, 0xff,	/*  5:明るい紫 */
-		0x00, 0xff, 0xff,	/*  6:明るい水色 */
+		0xff, 0x00, 0x00,	/*  1:亮? */
+		0x00, 0xff, 0x00,	/*  2:亮緑 */
+		0xff, 0xff, 0x00,	/*  3:亮黄 */
+		0x00, 0x00, 0xff,	/*  4:亮? */
+		0xff, 0x00, 0xff,	/*  5:亮紫 */
+		0x00, 0xff, 0xff,	/*  6:浅亮? */
 		0xff, 0xff, 0xff,	/*  7:白 */
-		0xc6, 0xc6, 0xc6,	/*  8:明るい灰色 */
-		0x84, 0x00, 0x00,	/*  9:暗い赤 */
-		0x00, 0x84, 0x00,	/* 10:暗い緑 */
-		0x84, 0x84, 0x00,	/* 11:暗い黄色 */
-		0x00, 0x00, 0x84,	/* 12:暗い青 */
-		0x84, 0x00, 0x84,	/* 13:暗い紫 */
-		0x00, 0x84, 0x84,	/* 14:暗い水色 */
-		0x84, 0x84, 0x84	/* 15:暗い灰色 */
+		0xc6, 0xc6, 0xc6,	/*  8:亮灰 */
+		0x84, 0x00, 0x00,	/*  9:暗? */
+		0x00, 0x84, 0x00,	/* 10:暗緑 */
+		0x84, 0x84, 0x00,	/* 11:暗黄 */
+		0x00, 0x00, 0x84,	/* 12:暗青 */
+		0x84, 0x00, 0x84,	/* 13:暗紫 */
+		0x00, 0x84, 0x84,	/* 14:浅暗? */
+		0x84, 0x84, 0x84	/* 15:暗灰 */
 	};
 	set_palette(0, 15, table_rgb);
 	return;
 
-	/* static char 命令は、データにしか使えないけどDB命令相当 */
+	/* C?言中的static char?句只能用于数据，相当于??中的DB指令 */
 }
 
 void set_palette(int start, int end, unsigned char *rgb)
 {
 	int i, eflags;
-	eflags = io_load_eflags();	/* 割り込み許可フラグの値を記録する */
-	io_cli(); 					/* 許可フラグを0にして割り込み禁止にする */
+	eflags = io_load_eflags();	/* ??中断?可?志的? */
+	io_cli(); 					/* 将中断?可?志置?0，禁止中断 */
 	io_out8(0x03c8, start);
 	for (i = start; i <= end; i++) {
 		io_out8(0x03c9, rgb[0] / 4);
@@ -71,7 +70,7 @@ void set_palette(int start, int end, unsigned char *rgb)
 		io_out8(0x03c9, rgb[2] / 4);
 		rgb += 3;
 	}
-	io_store_eflags(eflags);	/* 割り込み許可フラグを元に戻す */
+	io_store_eflags(eflags);	/* ?原中断?可?志 */
 	return;
 }
 

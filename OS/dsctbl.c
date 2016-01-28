@@ -12,11 +12,11 @@ struct GATE_DESCRIPTOR {
 	short offset_high;
 };
 
-void init_gdtidt(void);
-void set_segmdesc(struct SEGMENT_DESCRIPTOR *sd, unsigned int limit, int base, int ar);
-void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);
-void load_gdtr(int limit, int addr);
-void load_idtr(int limit, int addr);
+void init_gdtidt(void);//初始化全局段号??表&中断??表
+void set_segmdesc(struct SEGMENT_DESCRIPTOR *sd, unsigned int limit, int base, int ar);//?置段号??表
+void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);//?置中断??表
+void load_gdtr(int limit, int addr);//因?c?言不能直接?gdtr??，所以需要借助??
+void load_idtr(int limit, int addr);//因?c?言不能直接?idtr??，所以需要借助??
 
 void init_gdtidt(void)
 {

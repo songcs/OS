@@ -8,15 +8,14 @@ void io_out8(int port, int data);
 int io_load_eflags(void);
 void io_store_eflags(int eflags);
 
-void init_palette(void);
-void set_palette(int start, int end, unsigned char *rgb);
-void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1);
-void init_screen8(char *vram, int x, int y);
-void putfont8(char *vram, int xsize, int x, int y, char c, char *font);
+void init_palette(void);//初始化?色板
+void set_palette(int start, int end, unsigned char *rgb);//?置?色板
+void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1);//画矩形
+void init_screen8(char *vram, int x, int y);//初始化界面（?似正?操作系?的界面）
+void putfont8(char *vram, int xsize, int x, int y, char c, char *font);//?出字符;c：?色；*font：字符；x,y字符?示坐?
 void putfonts8_asc(char *vram, int xsize, int x, int y, char c, unsigned char *s);
 void init_mouse_cursor8(char *mouse, char bc);
-void putblock8_8(char *vram, int vxsize, int pxsize,
-	int pysize, int px0, int py0, char *buf, int bxsize);
+void putblock8_8(char *vram, int vxsize, int pxsize, int pysize, int px0, int py0, char *buf, int bxsize);
 
 #define COL8_000000		0
 #define COL8_FF0000		1
@@ -53,11 +52,11 @@ struct GATE_DESCRIPTOR {
 	short offset_high;
 };
 
-void init_gdtidt(void);
-void set_segmdesc(struct SEGMENT_DESCRIPTOR *sd, unsigned int limit, int base, int ar);
-void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);
-void load_gdtr(int limit, int addr);
-void load_idtr(int limit, int addr);
+void init_gdtidt(void);//初始化全局段号??表&中断??表
+void set_segmdesc(struct SEGMENT_DESCRIPTOR *sd, unsigned int limit, int base, int ar);//?置段号??表
+void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);//?置中断??表
+void load_gdtr(int limit, int addr);//因?c?言不能直接?gdtr??，所以需要借助??
+void load_idtr(int limit, int addr);//因?c?言不能直接?idtr??，所以需要借助??
 
 void HariMain(void)
 {
