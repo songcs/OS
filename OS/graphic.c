@@ -1,68 +1,38 @@
 /* 僌儔僼傿僢僋張棟娭學 */
 
-void io_hlt(void);
-void io_cli(void);
-void io_out8(int port, int data);
-int io_load_eflags(void);
-void io_store_eflags(int eflags);
-
-void init_palette(void);//弶巒壔?怓斅
-void set_palette(int start, int end, unsigned char *rgb);//?抲?怓斅
-void boxfill8(unsigned char *vram, int xsize, unsigned char c, int x0, int y0, int x1, int y1);//夋嬮宍
-void init_screen8(char *vram, int x, int y);//弶巒壔奅柺乮?帡惓?憖嶌宯?揑奅柺乯
-void putfont8(char *vram, int xsize, int x, int y, char c, char *font);//?弌帤晞;c丗?怓丟*font丗帤晞丟x,y帤晞?帵嵖?
-void putfonts8_asc(char *vram, int xsize, int x, int y, char c, unsigned char *s);
-void init_mouse_cursor8(char *mouse, char bc);
-void putblock8_8(char *vram, int vxsize, int pxsize, int pysize, int px0, int py0, char *buf, int bxsize);
-
-#define COL8_000000		0
-#define COL8_FF0000		1
-#define COL8_00FF00		2
-#define COL8_FFFF00		3
-#define COL8_0000FF		4
-#define COL8_FF00FF		5
-#define COL8_00FFFF		6
-#define COL8_FFFFFF		7
-#define COL8_C6C6C6		8
-#define COL8_840000		9
-#define COL8_008400		10
-#define COL8_848400		11
-#define COL8_000084		12
-#define COL8_840084		13
-#define COL8_008484		14
-#define COL8_848484		15
+#include "bootpack.h"
 
 void init_palette(void)
 {
 	static unsigned char table_rgb[16 * 3] = {
-		0x00, 0x00, 0x00,	/*  0:崟 */
-		0xff, 0x00, 0x00,	/*  1:椇? */
-		0x00, 0xff, 0x00,	/*  2:椇椢 */
-		0xff, 0xff, 0x00,	/*  3:椇墿 */
-		0x00, 0x00, 0xff,	/*  4:椇? */
-		0xff, 0x00, 0xff,	/*  5:椇巼 */
-		0x00, 0xff, 0xff,	/*  6:愺椇? */
-		0xff, 0xff, 0xff,	/*  7:敀 */
-		0xc6, 0xc6, 0xc6,	/*  8:椇奃 */
-		0x84, 0x00, 0x00,	/*  9:埫? */
-		0x00, 0x84, 0x00,	/* 10:埫椢 */
-		0x84, 0x84, 0x00,	/* 11:埫墿 */
-		0x00, 0x00, 0x84,	/* 12:埫惵 */
-		0x84, 0x00, 0x84,	/* 13:埫巼 */
-		0x00, 0x84, 0x84,	/* 14:愺埫? */
-		0x84, 0x84, 0x84	/* 15:埫奃 */
+		0x00, 0x00, 0x00,	/*  0:黒 */
+		0xff, 0x00, 0x00,	/*  1:亮红 */
+		0x00, 0xff, 0x00,	/*  2:亮緑 */
+		0xff, 0xff, 0x00,	/*  3:亮黄 */
+		0x00, 0x00, 0xff,	/*  4:亮蓝 */
+		0xff, 0x00, 0xff,	/*  5:亮紫 */
+		0x00, 0xff, 0xff,	/*  6:浅亮蓝 */
+		0xff, 0xff, 0xff,	/*  7:白 */
+		0xc6, 0xc6, 0xc6,	/*  8:亮灰 */
+		0x84, 0x00, 0x00,	/*  9:暗红 */
+		0x00, 0x84, 0x00,	/* 10:暗緑 */
+		0x84, 0x84, 0x00,	/* 11:暗黄 */
+		0x00, 0x00, 0x84,	/* 12:暗青 */
+		0x84, 0x00, 0x84,	/* 13:暗紫 */
+		0x00, 0x84, 0x84,	/* 14:浅暗蓝 */
+		0x84, 0x84, 0x84	/* 15:暗灰 */
 	};
 	set_palette(0, 15, table_rgb);
 	return;
 
-	/* C?尵拞揑static char?嬪扅擻梡槹悢悩丆憡摉槹??拞揑DB巜椷 */
+	/* C语言中的static char语句只能用于数据，相当于汇编中的DB指令 */
 }
 
 void set_palette(int start, int end, unsigned char *rgb)
 {
 	int i, eflags;
-	eflags = io_load_eflags();	/* ??拞抐?壜?巙揑? */
-	io_cli(); 					/* 彨拞抐?壜?巙抲?0丆嬛巭拞抐 */
+	eflags = io_load_eflags();	/* 记录中断许可标志的值*/
+	io_cli(); 					/* 将中断许可标志置为0，禁止中断 */
 	io_out8(0x03c8, start);
 	for (i = start; i <= end; i++) {
 		io_out8(0x03c9, rgb[0] / 4);
@@ -70,7 +40,7 @@ void set_palette(int start, int end, unsigned char *rgb)
 		io_out8(0x03c9, rgb[2] / 4);
 		rgb += 3;
 	}
-	io_store_eflags(eflags);	/* ?尨拞抐?壜?巙 */
+	io_store_eflags(eflags);	/* 复原中断许可标志 */
 	return;
 }
 
