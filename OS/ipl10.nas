@@ -1,105 +1,105 @@
 ; haribote-ipl
 ; TAB=4
 
-CYLS	EQU		10				; ‚Ç‚±‚Ü‚Å“Ç‚Ýž‚Þ‚©
+CYLS	EQU		10				; ã©ã“ã¾ã§èª­ã¿è¾¼ã‚€ã‹
 
-		ORG		0x7c00			; Žw–¾’ö˜“I‘•?’nš¬
+		ORG		0x7c00			; æŒ‡æ˜Žç¨‹åºçš„è£…?åœ°å€
 
-; ?yFAT12ŠiŽ®??“I?q
+; ?å‡†FAT12æ ¼å¼??çš„?è¿°
 
 		JMP		entry
 		DB		0x90
-		DB		"HARIBOTE"		; ??‹æ“I–¼Žš‰ÂˆÈ¥”CˆÓ“IŽš•„‹øi8Žš?j
-		DW		512				; ?˜¢î‹æ(sector)“I‘å¬(•K??512Žš?)
-		DB		1				; âÆiclusterj“I‘å¬i•K??1˜¢î‹æj
-		DW		1				; FAT“I‹NŽnˆÊ’uiˆê”Ê˜¸‘æˆê˜¢î‹æ?Žnj
-		DB		2				; FAT“I˜¢”i•K??2j
-		DW		224				; ª–Ú?“I‘å¬iˆê”Ê??224?j
-		DW		2880			; ?Ž¥?“I‘å¬i•K?¥2880î‹æj
-		DB		0xf0			; Ž¥?“I??i•K?¥0xf0j
-		DW		9				; FAT“I?“xi•K?¥9î‹æj
-		DW		18				; 1˜¢Ž¥“¹(track)—L™{˜¢î‹æi•K?¥18j
-		DW		2				; Ž¥?”i•K?¥2j
-		DD		0				; •sŽg—p•ª‹æC•K?¥0
-		DD		2880			; dŽÊˆêŽŸŽ¥?‘å¬
-		DB		0,0,0x29		; ˆÓ?•s–¾CŒÅ’è
-		DD		0xffffffff		; (‰Â”\¥)™É?†?
-		DB		"HARIBOTEOS "	; Ž¥?“I–¼Ìi11Žš?j
-		DB		"FAT12   "		; Ž¥?ŠiŽ®–¼Ìi8Žš?j
-		RESB	18				; æ‹óo18Žš?
+		DB		"HARIBOTE"		; ??åŒºçš„åå­—å¯ä»¥æ˜¯ä»»æ„çš„å­—ç¬¦ä¸²ï¼ˆ8å­—?ï¼‰
+		DW		512				; ?ä¸ªæ‰‡åŒº(sector)çš„å¤§å°(å¿…??512å­—?)
+		DB		1				; ç°‡ï¼ˆclusterï¼‰çš„å¤§å°ï¼ˆå¿…??1ä¸ªæ‰‡åŒºï¼‰
+		DW		1				; FATçš„èµ·å§‹ä½ç½®ï¼ˆä¸€èˆ¬ä»Žç¬¬ä¸€ä¸ªæ‰‡åŒº?å§‹ï¼‰
+		DB		2				; FATçš„ä¸ªæ•°ï¼ˆå¿…??2ï¼‰
+		DW		224				; æ ¹ç›®?çš„å¤§å°ï¼ˆä¸€èˆ¬??224?ï¼‰
+		DW		2880			; ?ç£?çš„å¤§å°ï¼ˆå¿…?æ˜¯2880æ‰‡åŒºï¼‰
+		DB		0xf0			; ç£?çš„??ï¼ˆå¿…?æ˜¯0xf0ï¼‰
+		DW		9				; FATçš„?åº¦ï¼ˆå¿…?æ˜¯9æ‰‡åŒºï¼‰
+		DW		18				; 1ä¸ªç£é“(track)æœ‰å‡ ä¸ªæ‰‡åŒºï¼ˆå¿…?æ˜¯18ï¼‰
+		DW		2				; ç£?æ•°ï¼ˆå¿…?æ˜¯2ï¼‰
+		DD		0				; ä¸ä½¿ç”¨åˆ†åŒºï¼Œå¿…?æ˜¯0
+		DD		2880			; é‡å†™ä¸€æ¬¡ç£?å¤§å°
+		DB		0,0,0x29		; æ„?ä¸æ˜Žï¼Œå›ºå®š
+		DD		0xffffffff		; (å¯èƒ½æ˜¯)å·?å·?
+		DB		"HARIBOTEOS "	; ç£?çš„åç§°ï¼ˆ11å­—?ï¼‰
+		DB		"FAT12   "		; ç£?æ ¼å¼åç§°ï¼ˆ8å­—?ï¼‰
+		RESB	18				; å…ˆç©ºå‡º18å­—?
 
-; ’ö˜ŠjS
+; ç¨‹åºæ ¸å¿ƒ
 
 entry:
-		MOV		AX,0			; ‰Žn‰»Šñ‘¶Ší
+		MOV		AX,0			; åˆå§‹åŒ–å¯„å­˜å™¨
 		MOV		SS,AX
 		MOV		SP,0x7c00
 		MOV		DS,AX
 
-; ƒfƒBƒXƒN‚ð“Ç‚Þ
+; ãƒ‡ã‚£ã‚¹ã‚¯ã‚’èª­ã‚€
 
 		MOV		AX,0x0820
 		MOV		ES,AX
-		MOV		CH,0			; ’Œ–Ê0
-		MOV		DH,0			; Ž¥?0
-		MOV		CL,2			; î‹æ2
+		MOV		CH,0			; æŸ±é¢0
+		MOV		DH,0			; ç£?0
+		MOV		CL,2			; æ‰‡åŒº2
 readloop:
-		MOV		SI,0			; ??Ž¸?ŽŸ”“IŠñ‘¶Ší
+		MOV		SI,0			; ??å¤±?æ¬¡æ•°çš„å¯„å­˜å™¨
 retry:
-		MOV		AH,0x02			; AH=0x02:?“üŽ¥?
-		MOV		AL,1			; 1˜¢î‹æ
+		MOV		AH,0x02			; AH=0x02:?å…¥ç£?
+		MOV		AL,1			; 1ä¸ªæ‰‡åŒº
 		MOV		BX,0
-		MOV		DL,0x00			; A??Ší
-		INT		0x13			; ?—pŽ¥?BIOS
-		JNC		next			; –vo?A’µ?“žnext
-		ADD		SI,1			; ‰SI‰Áˆê
-		CMP		SI,5			; ”ä?SI—^5
-		JAE		error			; SI>=5’µ?“žerror
+		MOV		DL,0x00			; A??å™¨
+		INT		0x13			; ?ç”¨ç£?BIOS
+		JNC		next			; æ²¡å‡º?å°±è·³?åˆ°next
+		ADD		SI,1			; å¾€SIåŠ ä¸€
+		CMP		SI,5			; æ¯”?SIä¸Ž5
+		JAE		error			; SI>=5è·³?åˆ°error
 		MOV		AH,0x00
-		MOV		DL,0x00			; A??Ší
-		INT		0x13			; d’u??Ší
+		MOV		DL,0x00			; A??å™¨
+		INT		0x13			; é‡ç½®??å™¨
 		JMP		retry
 next:
-		MOV		AX,ES			; ”c“à‘¶’nš¬@ˆÚ0x200
+		MOV		AX,ES			; æŠŠå†…å­˜åœ°å€åŽç§»0x200
 		ADD		AX,0x0020
-		MOV		ES,AX			; ˆö?–v—LADD ES,0x0020Žw—ß
-		ADD		CL,1			; ‰CL‰Áˆê
-		CMP		CL,18			; ”ä?CL˜a18
-		JBE		readloop		; ”@‰ÊCL <= 18 ’µ?ŽŠreadloopHHH
+		MOV		ES,AX			; å› ?æ²¡æœ‰ADD ES,0x0020æŒ‡ä»¤
+		ADD		CL,1			; å¾€CLåŠ ä¸€
+		CMP		CL,18			; æ¯”?CLå’Œ18
+		JBE		readloop		; å¦‚æžœCL <= 18 è·³?è‡³readloopï¼Ÿï¼Ÿï¼Ÿ
 		MOV		CL,1
 		ADD		DH,1
 		CMP		DH,2
-		JB		readloop		; ”@‰ÊDH < 2,?’µ?“žreadlloop
+		JB		readloop		; å¦‚æžœDH < 2,?è·³?åˆ°readlloop
 		MOV		DH,0
 		ADD		CH,1
 		CMP		CH,CYLS
-		JB		readloop		; CH < CYLS ?’µ?“žreadloop
+		JB		readloop		; CH < CYLS ?è·³?åˆ°readloop
 
-; “Ç‚ÝI‚í‚Á‚½‚Ì‚Åharibote.sys‚ðŽÀs‚¾I
+; èª­ã¿çµ‚ã‚ã£ãŸã®ã§haribote.sysã‚’å®Ÿè¡Œã ï¼
 
-		MOV		[0x0ff0],CH		; «CYLS“I?ŽÊ“ž“à‘¶’nš¬š¬0x0ff0’†C?—¹?haribote.sysŽ¥?‘•?“à—e
-		JMP		0xc200			; ’µ?“žharibote.sys 
+		MOV		[0x0ff0],CH		; å°†CYLSçš„?å†™åˆ°å†…å­˜åœ°å€å€0x0ff0ä¸­ï¼Œ?äº†å‘Š?haribote.sysç£?è£…?å†…å®¹
+		JMP		0xc200			; è·³?åˆ°haribote.sys
 
 error:
 		MOV		SI,msg
 putloop:
 		MOV		AL,[SI]
-		ADD		SI,1			; SI‚É1‚ð‘«‚·
+		ADD		SI,1			; SIã«1ã‚’è¶³ã™
 		CMP		AL,0
 		JE		fin
-		MOV		AH,0x0e			; ?Ž¦ˆê˜¢•¶Žš
-		MOV		BX,15			; Žw’èŽš•„?F
-		INT		0x10			; ?—p??BIOS
+		MOV		AH,0x0e			; ?ç¤ºä¸€ä¸ªæ–‡å­—
+		MOV		BX,15			; æŒ‡å®šå­—ç¬¦?è‰²
+		INT		0x10			; ?ç”¨??BIOS
 		JMP		putloop
 fin:
-		HLT						; ?cpu’âŽ~C“™‘ÒŽw—ß
-		JMP		fin				; ÙŒÀz?
+		HLT						; ?cpuåœæ­¢ï¼Œç­‰å¾…æŒ‡ä»¤
+		JMP		fin				; æ— é™å¾ª?
 msg:
-		DB		0x0a, 0x0a		; ?s2ŽŸ
+		DB		0x0a, 0x0a		; ?è¡Œ2æ¬¡
 		DB		"load error"
-		DB		0x0a			; ‰üs
+		DB		0x0a			; æ”¹è¡Œ
 		DB		0
 
-		RESB	0x7dfe-$		; “UŽÊ0x00,’¼“ž 0x7dfe
+		RESB	0x7dfe-$		; å¡«å†™0x00,ç›´åˆ° 0x7dfe
 
 		DB		0x55, 0xaa
